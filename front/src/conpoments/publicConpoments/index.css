@@ -1,0 +1,13 @@
+.KindModal .ant-row.ant-form-item{
+    display: flex;
+    margin-bottom: 5px;
+}
+.KindModal .ant-col.ant-form-item-label{
+    flex:0 0 120px
+}
+.KindModal .ant-col.ant-form-item-control-wrapper{
+    flex: 0 0 200px;
+}
+.KindModal .ant-input-number{
+    width: 200px;
+}
