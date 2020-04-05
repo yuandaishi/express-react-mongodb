@@ -3,11 +3,13 @@ import {Modal,Form,Input,Button,Row,Col,InputNumber} from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form' //获取form表单的interface
 import './index.css'
 import {Data} from './../content/fruits/banana/data'
+import State from './state';
 
 interface Iprops{//props中包含的属性(父元素要传的属性)
     visible:boolean
     setVisible:Function
     width?:number
+    type:string
 }
 
 const Modals:React.FC<Iprops& FormComponentProps>=(props)=>{//这里如果不用Iprops的话，则props只包含属性children，加上的话，则属性包含Iprops中的属性
@@ -22,7 +24,9 @@ const Modals:React.FC<Iprops& FormComponentProps>=(props)=>{//这里如果不用
             if(!err){
                 let col=(int(values.salePrice)*(values.saleWeight)-int(values.buyPrice)*(values.buyWeight))/100;
                 values.income=col;
-                Data.push(values)
+                values.type=props.type;
+                //Data.push(values)
+                State.addFruitsData(values);
                 //关闭弹窗
                 props.setVisible(false)
             }

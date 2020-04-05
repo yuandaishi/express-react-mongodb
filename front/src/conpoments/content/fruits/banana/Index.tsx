@@ -6,10 +6,11 @@ import KindModal from '../../../publicConpoments/kindModal'
 const Banana:React.FC=()=>{
     const {useState,useEffect}=React;
     const [visible, setVisible] = useState(false);
+    const [type, setType] = useState('');
 
     return(
         <div className='banana-box'>
-            <Button type='primary' className='add' onClick={()=>{setVisible(true)}}>新增品类</Button>
+            <Button type='primary' className='add' onClick={()=>{setVisible(true);setType('banana')}}>新增品类</Button>
             <Table 
                 dataSource={Data}
                 columns={Columns}
@@ -19,6 +20,7 @@ const Banana:React.FC=()=>{
                 visible={visible}
                 setVisible={setVisible}
                 width={800}
+                type={type}
             />
         </div>
     )

@@ -16,11 +16,11 @@ interface MenuList{
 }
 
 const Index:React.FC=()=>{
-    useEffect(() => {
-      fetch('/api/arr/3').then((response) => {
-        console.log(response)
-      })
-    }, []);
+    // useEffect(() => {
+    //   fetch('/api/arr/3').then((response) => {
+    //     console.log(response)
+    //   })
+    // }, []);
     const { SubMenu,Item } = Menu;
     const { Header, Content, Footer, Sider } = Layout;
     const menuList=(menuData:Array<MenuList>)=>{
