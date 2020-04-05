@@ -2,9 +2,8 @@ const morgan = require('morgan');
 const debugOne = require('debug')('app:startup');
 const debugTwo = require('debug')('app:db');
 const express = require('express');
-const Joi = require('@hapi/joi');
 const {logger} = require('./middleware/logger');
-const {index, arr} = require('./router/out');
+const {index, arr, fruit} = require('./router/out');
 const config = require('config');
 const app = express();
 
@@ -25,6 +24,8 @@ app.use(express.static('public'));//所有请求都会经过这个中间件
 
 app.use('/',index);//告诉express我们传入的路径，以及使用哪个router来处理这个路径的逻辑
 app.use('/api/arr',arr);//相当于执行中间件
+app.use('/fruit',fruit);//执行中间件， router没有new，所以不是新的实例
+
 
 //直接把这个端口设置成和前端项目相同的端口，访问的时候，并不能直接跳转到这里。
 //貌似是哪个服务先启动，则后启动的服务无效，访问3000的时候，如果前端项目先启动，则访问的是前端项目，如果是后端先启动，则访问的是后端项目。

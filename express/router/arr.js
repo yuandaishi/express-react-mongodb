@@ -17,6 +17,7 @@ const data = [
 ]
 
 router.get('/', (req, res) => { 
+    console.log(req.params);
     res.send([0, 1, 2, 3])
 })
 router.get('/:year/:month', (req, res) => {
