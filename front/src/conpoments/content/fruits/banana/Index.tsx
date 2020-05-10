@@ -3,8 +3,9 @@ import {Table,Button} from 'antd'
 import {Columns} from './data';
 import KindModal from '../../../publicConpoments/kindModal'
 import State from './state'
+import {observer} from 'mobx-react-lite'
 
-const Banana:React.FC=()=>{
+const Banana:React.FC=observer(()=>{
     const {useState,useEffect}=React;
     const [visible, setVisible] = useState(false);
     const [type, setType] = useState('');
@@ -27,6 +28,6 @@ const Banana:React.FC=()=>{
             />
         </div>
     )
-}
+})
 
 export default Banana;
