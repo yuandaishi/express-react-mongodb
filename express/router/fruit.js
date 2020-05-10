@@ -29,9 +29,42 @@ async function addBanana(data,res) {
     res.send(result);//没有send，前端将会一直处于pending状态
 }
 
+//查
+const getFruit  = async(req,res) => {
+    //const page=2;
+    //const pageSize=10;//实际会从借口中获取
+    if(req.params.name === 'banana'){
+        let result = await Banana
+        // .find({ price: { $gt: 10 } })//使用比较符
+        // .find({ price: { $gt: 10,$lt: 20 } })//使用比较符
+        // /find({ price: { $in: [10, 20, 30] }})//查找price等于10或者20或者30
+        .find()//{isPublished: true,author: 'yuands',}
+        //.skip()//分页功能（skip表示跳过的数据数量，例如页码从1开始的话，如果要查找第二页的数量，则要跳过第一页的数量，则skip(page-1)*pageSize，如果页码从0开始，就是说前端传0的时候，要获取第一页的数据，则skip(page*pageSize))
+        //.limit(pageSize)
+        .limit(10)
+        .sort({_id:-1})//1表示正向排序，-1表示负向。sort中的对象，按照key的先手顺序进行依次排序处理
+        .select();
+        //.select({name:1,tags:1})//_id始终都会返回，最终一步就是select,如果只想获取数量，使用count
+        //.count()
+        
+    
+        
+        //逻辑操作符
+        // .find()
+        // .or([ {name: 'yuands'}, {price: 10}])//name==yuands||price==10,and操作符类似
+        
+        //正则操作符
+        // .find({name: /正则表达式/})  例如find({name: /^yuan/})
+        if (!result) {//不设置这段代码的话，如果路径符合上述任何一个API地址的话，则返回的状态码是200,如果路径中没有符合的，则返回400
+            res.status(404).send({msg:'找不到相应的内容'})
+        }
+        res.send(result);
+    }
+}
 
-router.get('/get:name',(req,res) => {//查
+router.get('/get/:name',(req,res) => {//查
     //从数据库中获取数据
+    getFruit(req,res) 
 })
 
 router.post('/add',(req, res) => {//post请求放在请求体中
@@ -51,7 +84,9 @@ router.post('/add',(req, res) => {//post请求放在请求体中
         res.status(400).send('请求发送的字段不符合规则');
         return;
     }
-    addBanana(req.body,res);
+    if(req.body.type === 'banana'){//根据水果类型不同，存到不同的表中
+        addBanana(req.body,res);
+    }
 })
 
 module.exports = router;
