@@ -18,6 +18,10 @@ const Banana:React.FC=observer(()=>{
             <Table 
                 dataSource={State.data}
                 columns={Columns}
+                pagination={{
+                    onChange:State.changePage,
+                    total: State.total
+                }}
             >
             </Table>
             <KindModal
