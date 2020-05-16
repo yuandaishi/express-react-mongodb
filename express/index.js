@@ -24,6 +24,7 @@ app.use(express.static('public'));//所有请求都会经过这个中间件
 
 app.use('/',index);//告诉express我们传入的路径，以及使用哪个router来处理这个路径的逻辑
 app.use('/api/arr',arr);//相当于执行中间件
+//路劲中有fruit的时候。执行fruit中间件
 app.use('/fruit',fruit);//执行中间件， router没有new，所以不是新的实例
 
 
