@@ -7,6 +7,8 @@ import Server from './server';
 class State {
     @observable data = [];
     @observable total = 0;
+    @observable filter = {};
+    @observable current = 1;
     @action getData = async <T>(page: T) => {
         let res = await Server.getData(page);
         if (res.status === 200) {
@@ -18,8 +20,13 @@ class State {
         }
     }
     @action changePage = <A, B>(page: A, pageSize: B) => {
-        console.log(page, pageSize);
-        this.getData({ page: page, pageSize: pageSize });
+        this.current = Number(page);
+        this.getData({ page: page, pageSize: pageSize, filter: this.filter });
+    }
+    @action search = <T>(params: T) => {
+        this.filter = toJS(params);
+        this.current = 1;
+        this.getData({ page: 1, pageSize: 10, filter: params });
     }
 }
 

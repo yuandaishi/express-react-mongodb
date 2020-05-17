@@ -1,16 +1,16 @@
 import React from 'react';
-import {Table,Button} from 'antd'
-import {Data,Columns} from './data';
-import KindModal from '../../../publicConpoments/kindModal'
+import { Table, Button } from 'antd'
+import { Data, Columns } from './data';
+import KindModal from '../../../publicConpoments/add/kindModal'
 
-const Banana=()=>{
-    const {useState,useEffect}=React;
+const Banana = () => {
+    const { useState, useEffect } = React;
     const [visible, setVisible] = useState(false);
 
-    return(
+    return (
         <div className='banana-box'>
-            <Button type='primary' className='add' onClick={()=>{setVisible(true)}}>新增品类</Button>
-            <Table 
+            <Button type='primary' className='add' onClick={() => { setVisible(true) }}>新增品类</Button>
+            <Table
                 dataSource={Data}
                 columns={Columns}
             >

@@ -1,0 +1,29 @@
+.KindModal {
+    .ant-row.ant-form-item {
+        display: flex;
+        margin-bottom: 5px;
+    }
+
+    .ant-col.ant-form-item-label {
+        flex: 0 0 120px
+    }
+
+    .ant-col.ant-form-item-control-wrapper {
+        flex: 0 0 200px;
+    }
+
+    .ant-input-number {
+        width: 200px;
+    }
+}
+
+.search-box {
+    .ant-row.ant-form-item {
+        display: flex;
+        margin-bottom: 5px;
+    }
+
+    .ant-input-number {
+        min-width: 150px;
+    }
+}
