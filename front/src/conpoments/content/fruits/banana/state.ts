@@ -23,8 +23,13 @@ class State {
         this.current = Number(page);
         this.getData({ page: page, pageSize: pageSize, filter: this.filter });
     }
-    @action search = <T>(params: T) => {
-        this.filter = toJS(params);
+    @action search = <T>(params: any) => {
+        for (var key in params) {
+            if (params[key] === null || params[key] === '') {
+                params[key] = undefined
+            }
+        }
+        this.filter = params;
         this.current = 1;
         this.getData({ page: 1, pageSize: 10, filter: params });
     }

@@ -37,17 +37,25 @@ const getFruit = async (req, res) => {
     //const page=2;
     //const pageSize=10;//实际会从接口中获取
     if (req.params.name === 'banana') {
-        //console.log(JSON.parse(filter), JSON.parse(filter).name);//返回的属性值全部都是字符串
-        let { name, origin, income } = { ...JSON.parse(filter) };
-        let total = await Banana
-            .find({ name: name, origin: origin, income: { $gt: Number(income) || 0 } })
-            .countDocuments()
+        let findObj = JSON.parse(filter);
+        let findObjN = {};
+        for (var key in findObj) {
+            if (key !== 'income') {//不是收入的话，搜索正则匹配
+                findObjN[key] = new RegExp(findObj[key], 'i');
+            } else {
+                findObjN[key] = findObj[key];
+            }
+        }
+        let total = await Banana//获取数量
+            .find(findObjN)
+            .count()
 
         let data = await Banana
-            .find({ income: { $gt: Number(income) || 0 } })//使用比较符
+            .find(findObjN)//直接搜索对象，就是搜索匹配对象中的所有值
+            //.find({ income: { $gt: Number(income) || 0 } })//使用比较符
             // .find({ price: { $gt: 10,$lt: 20 } })//使用比较符
             // /find({ price: { $in: [10, 20, 30] }})//查找price等于10或者20或者30
-            .find({ name: name, origin: origin })//{isPublished: true,author: 'yuands',}
+            //.find({ name: name, origin: origin })//{isPublished: true,author: 'yuands',}
             .skip((Number(page) - 1) * Number(pageSize))//分页功能（skip表示跳过的数据数量，例如页码从1开始的话，如果要查找第二页的数量，则要跳过第一页的数量，则skip((page-1)*pageSize)，如果页码从0开始，就是说前端传0的时候，要获取第一页的数据，则skip(page*pageSize))
             //.limit(pageSize)//返回多少条数据
             .limit(Number(pageSize))
