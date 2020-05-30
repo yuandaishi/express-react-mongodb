@@ -25,8 +25,10 @@ const Banana = mongoose.model('banana', bananaSchema);//连接数据表
 async function addBanana(data, res) {
     const banana = new Banana(data)//实例化这个类   
     const result = await banana.save()
-    console.log('xxx', result)
-    res.send(result);//没有send，前端将会一直处于pending状态
+    if (!result) {
+        res.status(500).send({ msg: '服务有问题，请联系相关人员' })
+    }
+    res.send({ status: 200, msg: 'success' });//没有send，前端将会一直处于pending状态
 }
 
 //查
@@ -59,7 +61,7 @@ const getFruit = async (req, res) => {
             .skip((Number(page) - 1) * Number(pageSize))//分页功能（skip表示跳过的数据数量，例如页码从1开始的话，如果要查找第二页的数量，则要跳过第一页的数量，则skip((page-1)*pageSize)，如果页码从0开始，就是说前端传0的时候，要获取第一页的数据，则skip(page*pageSize))
             //.limit(pageSize)//返回多少条数据
             .limit(Number(pageSize))
-            .sort({ _id: 1 })//1表示正向排序，-1表示负向。sort中的对象，按照key的先手顺序进行依次排序处理
+            .sort({ _id: -1 })//1表示正向排序，-1表示负向。sort中的对象，按照key的先手顺序进行依次排序处理
             .select();
         //.select({name:1,tags:1})//_id始终都会返回，最终一步就是select,参数表示返回的属性,如果只想获取数量，使用count
         //.count()
@@ -74,6 +76,7 @@ const getFruit = async (req, res) => {
             res.status(404).send({ msg: '找不到相应的内容' })
         }
         res.send({
+            status: 200,
             total: total,
             data: data,
             msg: 'success'
@@ -81,10 +84,26 @@ const getFruit = async (req, res) => {
     }
 }
 
+const update = async (data, res) => {
+    console.log(data);
+    const banana = await Banana.findById(data._id);
+    if (!banana) return;
+    banana.set(data);
+    const result = await banana.save();
+    if (!result) {
+        res.status(500).send({ msg: '服务有问题，请联系相关人员' })
+    }
+    res.send({ data: result, msg: 'success', status: 200 });//没有send
+}
+
 //路径中有get的时候，执行以下查找方法
 router.get('/get/:name', (req, res) => {//查
     //从数据库中获取数据
     getFruit(req, res)
+})
+
+router.put('/updata', (req, res) => {//更新
+    update(JSON.parse(JSON.stringify(req.body)), res);
 })
 
 router.post('/add', (req, res) => {//post请求放在请求体中

@@ -2,11 +2,11 @@ import { action, observable, toJS } from 'mobx'
 import axios from 'axios';
 import { promises, resolve } from 'dns';
 
-class Server{
-    getFruitsData(){
+class Server {
+    getFruitsData() {
 
     }
-    addFruitsData<T>(data:T){//泛型
+    addFruitsData<T>(data: T) {//泛型
         //await 返回 Promise 对象的处理结果。如果等待的不是 Promise 对象，则返回该值本身。
         //return axios.get('/api/arr');
         //return axios.post('/fruit/bananas',data);//返回一个promise，处理结果是resolve，或者reject
@@ -19,7 +19,7 @@ class Server{
         //             console.log(error)
         //             return 'error'
         //         })
-      
+
         // return new Promise( (resolve,reject) => {
         //     resolve('hello')
         //     axios.post('/fruit/bananas',data)
@@ -30,7 +30,10 @@ class Server{
         //         console.log(error)
         //     })
         // })
-        return axios.post('/fruit/add',data);
+        return axios.post('/fruit/add', data);
+    }
+    modifyFruitsData<T>(data: T) {
+        return axios.put('/fruit/updata', data);
     }
 }
 

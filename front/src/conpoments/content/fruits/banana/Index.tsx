@@ -12,8 +12,6 @@ interface Iprops {
 
 const Banana: React.FC<Iprops> = observer((prpos: Iprops) => {
     const { useState, useEffect } = React;
-    const [visible, setVisible] = useState(false);
-    const [type, setType] = useState('');
     useEffect(() => {
         State.getData({ page: 1, pageSize: 10, filter: {} })
     }, []);
@@ -22,7 +20,9 @@ const Banana: React.FC<Iprops> = observer((prpos: Iprops) => {
             <SearchCom
                 search={State.search}
             />
-            <Button type='primary' className='add' onClick={() => { setVisible(true); setType('banana') }}>新增品类</Button>
+            <Button type='primary' className='add' onClick={() => { State.setVisible(true); State.setType('banana') }}>新增品类</Button>
+            <Button type="primary" onClick={State.delete}>删除</Button>
+
             <Table
                 dataSource={State.data}
                 columns={Columns}
@@ -34,10 +34,12 @@ const Banana: React.FC<Iprops> = observer((prpos: Iprops) => {
             >
             </Table>
             <KindModal
-                visible={visible}
-                setVisible={setVisible}
+                visible={State.visible}
+                setVisible={State.setVisible}
                 width={800}
-                type={type}
+                type={State.type}
+                operationType={State.operationType}
+                defaultDate={State.defaultDate}
             />
         </div>
     )

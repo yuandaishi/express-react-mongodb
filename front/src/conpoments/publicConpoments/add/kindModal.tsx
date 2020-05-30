@@ -9,6 +9,16 @@ interface Iprops {//props中包含的属性(父元素要传的属性)
     setVisible: Function
     width?: number
     type: string
+    operationType: string
+    defaultDate: {
+        name?: string
+        origin?: string,
+        buyPrice?: number,
+        buyWeight?: number,
+        salePrice?: number,
+        saleWeight?: number,
+        income?: string,
+    }
 }
 
 const Modals: React.FC<Iprops & FormComponentProps> = (props) => {//这里如果不用Iprops的话，则props只包含属性children，加上的话，则属性包含Iprops中的属性
@@ -25,9 +35,9 @@ const Modals: React.FC<Iprops & FormComponentProps> = (props) => {//这里如果
                 values.income = col;
                 values.type = props.type;
                 //Data.push(values)
-                State.addFruitsData(values);
+                State.addFruitsData(Object.assign(props.defaultDate, values), props.operationType);
                 //关闭弹窗
-                props.setVisible(false)
+                props.setVisible(false, {}, props.form)
             }
         })
     }
@@ -38,7 +48,7 @@ const Modals: React.FC<Iprops & FormComponentProps> = (props) => {//这里如果
             title="测试用"
             visible={props.visible}
             //onCancel={props.setVisible(false)}这样写没有效果
-            onCancel={() => { props.setVisible(false) }}
+            onCancel={() => { props.setVisible(false, {}, props.form) }}
             onOk={() => { okFun() }}
             width={props.width}
             okText='确定'
@@ -49,6 +59,7 @@ const Modals: React.FC<Iprops & FormComponentProps> = (props) => {//这里如果
                     <Col span={12}>
                         <Item label="产品名称">
                             {getFieldDecorator('name', {
+                                initialValue: props.defaultDate.name,
                                 rules: [
                                     {
                                         required: true,
@@ -61,6 +72,7 @@ const Modals: React.FC<Iprops & FormComponentProps> = (props) => {//这里如果
                     <Col span={12}>
                         <Item label="产地">
                             {getFieldDecorator('origin', {
+                                initialValue: props.defaultDate.origin,
                                 rules: [
                                     {
                                         required: true,
@@ -75,6 +87,7 @@ const Modals: React.FC<Iprops & FormComponentProps> = (props) => {//这里如果
                     <Col span={12}>
                         <Item label="购入价格(每斤)">
                             {getFieldDecorator('buyPrice', {
+                                initialValue: props.defaultDate.buyPrice,
                                 rules: [
                                     {
                                         required: true,
@@ -87,6 +100,7 @@ const Modals: React.FC<Iprops & FormComponentProps> = (props) => {//这里如果
                     <Col span={12}>
                         <Item label="购入重量(斤)">
                             {getFieldDecorator('buyWeight', {
+                                initialValue: props.defaultDate.buyWeight,
                                 rules: [
                                     {
                                         required: true,
@@ -101,6 +115,7 @@ const Modals: React.FC<Iprops & FormComponentProps> = (props) => {//这里如果
                     <Col span={12}>
                         <Item label="卖出价格(每斤)">
                             {getFieldDecorator('salePrice', {
+                                initialValue: props.defaultDate.salePrice,
                                 rules: [
                                     {
                                         required: true,
@@ -113,6 +128,7 @@ const Modals: React.FC<Iprops & FormComponentProps> = (props) => {//这里如果
                     <Col span={12}>
                         <Item label="卖出重量(斤)">
                             {getFieldDecorator('saleWeight', {
+                                initialValue: props.defaultDate.saleWeight,
                                 rules: [
                                     {
                                         required: true,
