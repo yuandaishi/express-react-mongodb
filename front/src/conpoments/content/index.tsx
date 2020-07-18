@@ -5,6 +5,7 @@ import './index.scss';
 import menuData from './menuData';
 // import Banana from './fruits/banana/Index.js';
 import Banana from './fruits/banana/Index';
+import FormTest from './form/demo1/index';
 import Public from './public';
 
 interface MenuList {
@@ -77,6 +78,7 @@ const Index: React.FC = () => {
             <Switch>
               {/* 公共部分 */}
               <Route exact path={'/content/public/banana'} component={Banana} />
+              <Route exact path={'/content/public/demo1'} component={FormTest} />
             </Switch>
           </Content>
         </Layout>
