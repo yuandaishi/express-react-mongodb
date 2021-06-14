@@ -14,6 +14,7 @@ class Son1 extends React.Component {
   }
   render() {
     console.log("2.render");
+    // for (let i = 0; i < 1000000000; i++) {}
     return (
       <p
         onClick={() => {
