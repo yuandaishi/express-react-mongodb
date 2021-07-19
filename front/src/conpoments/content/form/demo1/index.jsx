@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Table, Input, InputNumber } from "antd";
+import { Form, Table, Input, InputNumber, Modal, Button } from "antd";
 import State from "./state";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
@@ -18,6 +18,13 @@ const { Item } = Form;
 // 父元素componentDidUpdate的时候，子元素肯定componentDidUpdate了
 // 因为父元素render会导致所有子元素render，导致所有子元素执行componentDidMount或者componentDidUpdate，
 // render会耗费时间，componentDidUpdate和componentDidUpdate也会根据复杂度耗费时间，所以设计组件的时候，尽量分离，把需要修改的地方分发到各个子组件，父组件尽量少的进行render。
+// 把需要修改的地方分发到各个子组件 即不通过父组件传值进行修改，直接修改子组件的状态
+// 1.render
+// 2.render
+// 3.render
+// 2.componentDidMount
+// 3.componentDidMount
+// 1.componentDidMount
 @observer
 class FormTest extends React.Component {
   constructor(props) {
@@ -26,6 +33,8 @@ class FormTest extends React.Component {
 
   componentDidMount() {
     console.log("1.componentDidMount");
+    console.log('dom', document.getElementsByClassName('ant-modal-content')[0])
+    console.log('p1', document.getElementsByClassName('p1')[0])
     for (let i = 0; i < 5; i++) {
       State.data.push({
         name: "yuands",
@@ -37,6 +46,27 @@ class FormTest extends React.Component {
   componentDidUpdate() {
     console.log("1.componentDidUpdate");
   }
+  state = { visible: false };
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
   render() {
     console.log("1.render");
     const { getFieldDecorator } = this.props.form;
@@ -88,9 +118,9 @@ class FormTest extends React.Component {
                   placeholder="Basic usage"
                   min={0}
                   max={100}
-                  // formatter={value => `${value}%`}
-                  // parser={value => value.replace('%', '')}
-                  // onChange={onChange}
+                // formatter={value => `${value}%`}
+                // parser={value => value.replace('%', '')}
+                // onChange={onChange}
                 />
               )}
             </Item>
@@ -107,6 +137,24 @@ class FormTest extends React.Component {
             pagination={false}
           ></Table>
         </Form>
+        <Button type="primary" onClick={State.handleOk}>
+          Open Modal
+        </Button>
+        {/* 从父组件传过去的值，相当于父组件改变，这里相当于父组件改变了 */}
+        <Modal
+          title="Basic Modal"
+          visible={State.visible}
+          // visible={this.state.visible}
+          // onOk={this.handleOk}
+          // onCancel={this.handleCancel}
+          forceRender={true}
+          onOk={State.handleOk}
+          onCancel={State.handleCancel}
+        >
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Modal>
         <Son1 />
         <Son2 />
       </>

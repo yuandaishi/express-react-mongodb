@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 class State {
     @observable data = [
         {
@@ -7,6 +7,13 @@ class State {
             address: '广西'
         }
     ]
+    @observable visible = false;
+    @action handleOk = () => {
+        this.visible = true
+    }
+    @action handleCancel = () => {
+        this.visible = false
+    }
 }
 
 export default new State();

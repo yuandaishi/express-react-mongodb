@@ -17,6 +17,7 @@ class Son1 extends React.Component {
     // for (let i = 0; i < 1000000000; i++) {}
     return (
       <p
+        className='p1'
         onClick={() => {
           this.setState({ time: +new Date() });
         }}
